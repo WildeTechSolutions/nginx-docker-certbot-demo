@@ -34,13 +34,16 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
       - ./cloudflare.ini:/etc/letsencrypt/cloudflare.ini  # Cloudflare credentials
+    
+    # while loop is not necessary if you create a server and timer on the host 
     entrypoint: >
       /bin/sh -c "
       certbot certonly --non-interactive --quiet --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini \
       --email ${EMAIL} --agree-tos --no-eff-email --expand \
       --domains ${DOMAINS};
-
+     
       while :; do 
         certbot renew --non-interactive --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini;
         sleep 24h;
-      done"
+      done
+      "

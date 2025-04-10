@@ -1,26 +1,10 @@
-## Common Commands
+## Summary
 
-Hot reload nginx after changes to configuration
+This project will run nginx and certbot in a docker stack.  Change `example.env` to a `.env` file, set the email for certbot and what domains you want to include in the certificates.
 
-```bash
-/usr/bin/docker exec -it nginx nginx -s reload
-```
-
-To tail the logs:
-
-```bash
-tail -10 /home/thomas/docker/nginx/data/nginx/logs/access.log
-```
-
-Manually renew certs
-
-```bash
-/usr/bin/docker exec certbot certbot renew --non-interactive --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini;
-```
-
+Instructions are below for creating a service and timer to both renew SSL/TLS certbot certs and hot reload nginx.  
 
 ## Create a Service and Timer
-
 
 ### Certbot renew
 
@@ -128,4 +112,24 @@ sudo systemctl status nginx-certbot-renew.timer
 
 ```bash
 sudo systemctl status nginx-reload.timer
+```
+
+## Common Commands
+
+Hot reload nginx after changes to configuration
+
+```bash
+/usr/bin/docker exec -it nginx nginx -s reload
+```
+
+To tail the logs:
+
+```bash
+tail -10 /home/thomas/docker/nginx/data/nginx/logs/access.log
+```
+
+Manually renew certs
+
+```bash
+/usr/bin/docker exec certbot certbot renew --non-interactive --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini;
 ```
